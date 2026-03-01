@@ -1,0 +1,36 @@
+from microbit import *
+import music
+import audio
+import radio
+
+radio.on()
+radio.config(group=7)
+
+while True:
+
+    message = radio.receive()
+
+    # Shake to introduce
+    if accelerometer.was_gesture("shake"):
+        display.show(Image.HAPPY)
+        audio.play(Sound.GIGGLE)
+        radio.send("hello")
+        sleep(500)
+        display.clear()
+
+    # Respond to hello
+    if message == "hello":
+        display.show(Image.HEART)
+        music.play(music.POWER_UP)
+        sleep(800)
+        display.clear()
+
+    # Button A sends group hug
+    if button_a.was_pressed():
+        radio.send("hug")
+
+    if message == "hug":
+        display.show(Image.HEART)
+        music.play(music.BA_DING)
+        sleep(800)
+        display.clear()
